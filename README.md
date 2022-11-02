@@ -2,7 +2,8 @@
 
 ## Potential Questions
 
-	1. Are their correlations between lack of preventative care and patient outcomes? We can group this based on State.
+	1. Are their correlations between lack of preventative care and patient outcomes? 
+	We can group this based on State.
  
 	2. Are their health risks related to sleeping less than seven hours?
 
@@ -17,4 +18,6 @@ Data Source: PLACES: Census Tract Data (GIS Friendly Format), 2021 release: http
 - Model: Supervised Machine Learning
 
 - Database: PostgreSQL
+
+Communication: Slack
 
