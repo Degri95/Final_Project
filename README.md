@@ -38,7 +38,7 @@ Create a table that we can use to label the rows as urban, micro-urban, or rural
 
 ## Machine Learning Model
 
-PCA and K-means clustinging will be used to identify unique clusting in the data. Input will be all health related variables and the **RuralUrban** column encoded. The features will be scaled and PCA will be applied to reduce dimensionallity to three components. This will allow the data to be plotted using 3D graphs. Drilling down each category of data will have clustering applied. This includes preventative service, risk factors, and health outcomes.
+PCA and K-means clustinging will be used to identify unique clusting in the data. Input will be all health related variables and the **RuralUrban** column encoded. The features will be scaled and PCA will be applied to reduce dimensionallity to three components. This will allow the data to be plotted using 3D graphs. Drilling down, each category of data will have clustering applied. This includes preventative service, risk factors, and health outcomes.
 
 A balanced random forest classifier will be used to predict **urban** or **rural** based on feature variables containing percentage of population with health issues, rural population, and urban population. Feature importance will be used to find what features are contributing the most to the models classification. 
 
