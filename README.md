@@ -1,28 +1,5 @@
 # Final_Project
 
-<<<<<<< HEAD
-# PRELIMINARY
-
-### Question
-
-Healthcare - Sleep? Predicting health problems ie "Can ____ Be predicted by _____? Predicting state by health data? Can this data be grouped and classified? Can the classified data be used to predict certain health problems? Breaking down classes by state.
-
-### Communication
-
-Communication for the project is going to be through Slack. A team channel was created and will be used throughout the project.
-
-### Machine learning model
-
-PCA / K-means clustiring | linear regression | Random Forrest classifier ?
-
-### Database
-
-PostgreSQL w/ PGadmin. Data will be preprocessed before importing.
-
-### Tech stack
-
-PostgreSQL w/ PGadmin, python w/ pandas, sklearn, Tableau, Dash/Plotly
-=======
 Topic: US Health
 
 ## Reason topic was selected:
@@ -69,4 +46,3 @@ Outputs we are hoping to see a weight for each input to predict the cancer outco
 
 ## Databases
 
->>>>>>> 3aff15c4d704f6bff7d1b25cd85585bd41028358
