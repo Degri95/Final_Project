@@ -38,11 +38,18 @@ Create a table that we can use to label the rows as urban, micro-urban, or rural
 
 ## Machine Learning Model
 
-Preliminary: Random Forest to find weights. (We might do additional models.)
+PCA and K-means clustinging will be used to identify unique clusting in the data. Input will be all health related variables and the **RuralUrban** column encoded. The features will be scaled and PCA will be applied to reduce dimensionallity to three components. This will allow the data to be plotted using 3D graphs. Drilling down, each category of data will have clustering applied. This includes preventative service, risk factors, and health outcomes.
 
-Outputs we are hoping to see a weight for each input to predict the cancer outcome.
+A balanced random forest classifier will be used to predict **urban** or **rural** based on feature variables containing percentage of population with health issues, rural population, and urban population. Feature importance will be used to find what features are contributing the most to the models classification. 
 
+A regression model will be used to predict percentage of population with cancer based on input features. Feature variables will be percentage of population with other health issues, rural and urban population, and rural or urban classification.
 
+A regression model will be used to predict percentage of population with cancer based on rural and urban population, along with rural or urban classification. This will convey if there is correlation between the two populations and classification to the cancer rate.
+
+Scaling will be applied to inputs of the regression models but not the balanced random forest.
+
+Other models will be applied if the need arises. 
 
 ## Databases
+
 
