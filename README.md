@@ -1,26 +1,4 @@
 # Final_Project
-
-<<<<<<< HEAD
-## Potential Questions
-
-	1. Are their correlations between lack of preventative care and patient outcomes? 
-	We can group this based on State.
- 
-	2. Are their health risks related to sleeping less than seven hours?
-
-## Resources
-
-Data Source: PLACES: Census Tract Data (GIS Friendly Format), 2021 release: https://chronicdata.cdc.gov/500-Cities-Places/PLACES-Census-Tract-Data-GIS-Friendly-Format-2021-/yjkw-uj5s
-
-- Tools: Python 3.7.6, Visual Studio
-
-- Libraries: SKLearn/Scikit-learn, Pandas, Plotly, Maptplotlib, hvPlot
-
-- Model: Supervised Machine Learning
-
-- Database: PostgreSQL
-
-Communication: Slack
 =======
 Topic: US Health
 
@@ -55,9 +33,9 @@ The team is using slack to communicate between classes.  We also have a file to 
 - Postgres for our database
 
 ## Steps for pre-processing
-Identify which rows we want to keep
-Deleting null rows
-Create a table that we can use to label the rows as urban, micro-urban, or rural.
+- Identify which rows we want to keep
+- Deleting null rows
+- Create a table that we can use to label the rows as urban, or rural.
 
 
 ## Machine Learning Model
