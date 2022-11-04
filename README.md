@@ -79,7 +79,7 @@ Other models will be applied if the need arises.
 - We are using PostgreSQL hosted by AWS. We are creating two tables. One table contains our county variable (Health related data) and the other has a population density data.In addition, we are using PySpark to transform, load and extract before hosting on a remote server.
 - The machine learning model will be connected to the database (PostgreSQL).
 
-![PostgreSQL Schema](Schema.png)
+![PostgreSQL Schema](images/Schema.png)
 
 >>>>>>> 9594063a194c74ae65e35bb3b8faedf2b26e0e88
 
