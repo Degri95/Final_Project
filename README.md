@@ -28,7 +28,9 @@ Topic: US Health
 Dataset is large and encompases possible variables that may be related to one another.  It also includes mapping components.  Health is a topic that affects everyone.  We wanted to better understand how health metrics might differ by location.
 
 ## Data source
-We are using data from the 2021 Places Census data.  This data provides statistical estimates of measures related to health outcomes, prevention, and health risk behaviors for census tracts in the United State.  These are determined by combining various surveys for the same populations.  Each census tract is a small location division that averages about 4,000 inhabitants.  We also reviewed Census data for better health.
+We are using data from the 2021 Places Census data.  This data provides statistical estimates of measures related to health outcomes, prevention, and health risk behaviors for counties in the United State.  These are determined by combining various surveys for the same populations. 
+The data is sourced through the The United States Census bureau by counties
+
 https://chronicdata.cdc.gov/500-Cities-Places/PLACES-Census-Tract-Data-GIS-Friendly-Format-2021-/yjkw-uj5s
 
 ## Questions we hope to answer with the data
@@ -73,6 +75,11 @@ Scaling will be applied to inputs of the regression models but not the balanced 
 Other models will be applied if the need arises. 
 
 ## Databases
+
+- We are using PostgreSQL hosted by AWS. We are creating two tables. One table contains our county variable (Health related data) and the other has a population density data.In addition, we are using PySpark to transform, load and extract before hosting on a remote server.
+- The machine learning model will be connected to the database (PostgreSQL)
+
+![PostgreSQL Schema](Schema.png)
 
 >>>>>>> 9594063a194c74ae65e35bb3b8faedf2b26e0e88
 
