@@ -1,12 +1,36 @@
 # Final_Project
 
+<<<<<<< HEAD
+## Potential Questions
+
+	1. Are their correlations between lack of preventative care and patient outcomes? 
+	We can group this based on State.
+ 
+	2. Are their health risks related to sleeping less than seven hours?
+
+## Resources
+
+Data Source: PLACES: Census Tract Data (GIS Friendly Format), 2021 release: https://chronicdata.cdc.gov/500-Cities-Places/PLACES-Census-Tract-Data-GIS-Friendly-Format-2021-/yjkw-uj5s
+
+- Tools: Python 3.7.6, Visual Studio
+
+- Libraries: SKLearn/Scikit-learn, Pandas, Plotly, Maptplotlib, hvPlot
+
+- Model: Supervised Machine Learning
+
+- Database: PostgreSQL
+
+Communication: Slack
+=======
 Topic: US Health
 
 ## Reason topic was selected:
 Dataset is large and encompases possible variables that may be related to one another.  It also includes mapping components.  Health is a topic that affects everyone.  We wanted to better understand how health metrics might differ by location.
 
 ## Data source
-We are using data from the 2021 Places Census data.  This data provides statistical estimates of measures related to health outcomes, prevention, and health risk behaviors for census tracts in the United State.  These are determined by combining various surveys for the same populations.  Each census tract is a small location division that averages about 4,000 inhabitants.  We also reviewed Census data for better health.
+We are using data from the 2021 Places Census data.  This data provides statistical estimates of measures related to health outcomes, prevention, and health risk behaviors for counties in the United State.  These are determined by combining various surveys for the same populations. 
+The data is sourced through the The United States Census bureau by counties
+
 https://chronicdata.cdc.gov/500-Cities-Places/PLACES-Census-Tract-Data-GIS-Friendly-Format-2021-/yjkw-uj5s
 
 ## Questions we hope to answer with the data
@@ -52,4 +76,10 @@ Other models will be applied if the need arises.
 
 ## Databases
 
+- We are using PostgreSQL hosted by AWS. We are creating two tables. One table contains our county variable (Health related data) and the other has a population density data.In addition, we are using PySpark to transform, load and extract before hosting on a remote server.
+- The machine learning model will be connected to the database (PostgreSQL).
+
+![PostgreSQL Schema](images/Schema.png)
+
+>>>>>>> 9594063a194c74ae65e35bb3b8faedf2b26e0e88
 
