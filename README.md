@@ -1,5 +1,5 @@
 # Final_Project
-=======
+
 Topic: US Health
 
 ## Reason topic was selected:
@@ -40,10 +40,22 @@ The team is using slack to communicate between classes.  We also have a file to 
 
 ## Machine Learning Model
 
+### Data preprocessing
+
+The first dataset that was preproccessed was the **PLACES_County** CSV file. The data was read into a Jupyter Notebook as a DataFrame and filtered to drop confidence interval columns. 
+``dropna()`` was applied to the DataFrame and a loop was used to create a new column that labels rows based on total population of each county. The DataFrame was then saved as a CSV and imported into an AWS server in a google colab notebook.
+
+The second dataset that was preprocessed was the **census_county_pop** CSV file. the data was read into a Jupyter Notebook as a DataFrame and filtered to drop empty columns. A loop then used to create a new column that contains labels based on population density for each row. This DataFrame was then saved as a CSV and imported into an AWS server in a google colab notebook.
+
+### feature engineering
+
+### training and testing
+
+### model choices
+
 PCA and K-means clustinging will be used to identify unique clusting in the data. Input will be all health related variables and the **RuralUrban** column encoded. The features will be scaled and PCA will be applied to reduce dimensionallity to three components. This will allow the data to be plotted using 3D graphs. Drilling down, each category of data will have clustering applied. This includes preventative service, risk factors, and health outcomes.
 
-A balanced random forest classifier will be used to predict **urban** or **rural** based on feature variables containing percentage of population with health issues, rural population, and urban population. Feature importance will be used to find what features are contributing the most to the models classification. 
-
+Linear and multiple linear regression will be used to predict cancer rate using the categorized health data as features.  
 
 ## Databases
 
@@ -52,5 +64,5 @@ A balanced random forest classifier will be used to predict **urban** or **rural
 
 ![PostgreSQL Schema](images/Schema.png)
 
->>>>>>> 9594063a194c74ae65e35bb3b8faedf2b26e0e88
+
 
