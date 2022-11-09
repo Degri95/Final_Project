@@ -44,13 +44,6 @@ PCA and K-means clustinging will be used to identify unique clusting in the data
 
 A balanced random forest classifier will be used to predict **urban** or **rural** based on feature variables containing percentage of population with health issues, rural population, and urban population. Feature importance will be used to find what features are contributing the most to the models classification. 
 
-A regression model will be used to predict percentage of population with cancer based on input features. Feature variables will be percentage of population with other health issues, rural and urban population, and rural or urban classification.
-
-A regression model will be used to predict percentage of population with cancer based on rural and urban population, along with rural or urban classification. This will convey if there is correlation between the two populations and classification to the cancer rate.
-
-Scaling will be applied to inputs of the regression models but not the balanced random forest.
-
-Other models will be applied if the need arises. 
 
 ## Databases
 
