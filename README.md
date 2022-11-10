@@ -13,7 +13,7 @@ https://chronicdata.cdc.gov/500-Cities-Places/PLACES-Census-Tract-Data-GIS-Frien
 
 ## Questions we hope to answer with the data
 Main Question
-- Can we predict a propensity of cancer based on rural or urban classification?
+- Can we predict a propensity of cancer based on other categories of health metrics from the same county?
 
 Possible alternative/supplemental questions
 - Are there behaviors that can be used to predict a population's medical outcomes such as cancer.
@@ -53,9 +53,7 @@ The second dataset that was preprocessed was the **census_county_pop** CSV file.
 
 ### model choices
 
-PCA and K-means clustinging will be used to identify unique clusting in the data. Input will be all health related variables and the **RuralUrban** column encoded. The features will be scaled and PCA will be applied to reduce dimensionallity to three components. This will allow the data to be plotted using 3D graphs. Drilling down, each category of data will have clustering applied. This includes preventative service, risk factors, and health outcomes.
-
-Linear and multiple linear regression will be used to predict cancer rate using the categorized health data as features.  
+Linear and multiple linear regression will be used to predict cancer rate using the categorized health data as features. Each catergory of health data will be used in a multiple linear regression to create their own predictions. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships.
 
 ## Databases
 
