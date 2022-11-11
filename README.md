@@ -62,7 +62,7 @@ Linear and multiple linear regression will be used to predict cancer rate using 
 - We are using PostgreSQL hosted by AWS. We are creating two tables. One table contains our county variable (Health related data) and the other has a population density data.In addition, we are using PySpark to transform, load and extract before hosting on a remote server.
 - The machine learning model will be connected to the database (PostgreSQL).
 
-![PostgreSQL Schema](images/images/CDC_Data_tables_ERD.png)
+![PostgreSQL Schema](images/CDC_Data_tables_ERD.png)
 
 
 
