@@ -21,6 +21,9 @@ Possible alternative/supplemental questions
 - Does living in metropolitan area lead to higher health risks?
 - A specific health factor e.g Is there a correlation between hours of sleep per a night and obesity?
 
+## Slides
+
+https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNWap8/edit?usp=sharing
 
 ## Communication Protocols
 The team is using slack to communicate between classes.  We also have a file to help us determine best times to meet outside of class if needed.  We are going to use slack for notifications on updates to the main branch.
@@ -64,5 +67,12 @@ Linear and multiple linear regression will be used to predict cancer rate using 
 
 ![PostgreSQL Schema](images/CDC_Data_tables_ERD.png)
 
+## Dashboard 
 
+* Description of tools
+    * Tableau - we will use Tableau to create various graphs, including an interactive map, and add them to our website
+    * Dash - we will use Dash to create our website and display our findings of the health measures we analyzed in different counties 
+* Interactive elelments
+    * Interactive map where the user can look at all the counties we have data from that will show information about the health measures we analyzed
+    * Pull down menu of the counties that will display the health measures of the area
 
