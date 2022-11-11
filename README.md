@@ -31,6 +31,7 @@ The team is using slack to communicate between classes.  We also have a file to 
 - Jupyter Notebook
 - Tableau for mapping
 - Postgres for our database
+- AWS to host the data
 
 ## Data Exploration And Analysis
 We reviewed distributions by using box plots to better understand the various measures in our dataset.  We compared the crude with the age adjusted columns and determined to keep the age adjusted columns based on our approach of comparing measures accross counties.  We also completed some quick scatterplots and saw that some of the relationships between measures appeared to be linear.
