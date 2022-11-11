@@ -67,5 +67,11 @@ Linear and multiple linear regression will be used to predict cancer rate using 
 
 ![PostgreSQL Schema](images/Schema.png)
 
+## Dashboard 
 
+* Description of tools
+    * Tableau - we want to use a Tableau to create various graphs and add them to our website
+    * Dash - We want to use Dash to create our website and display our findings and pgraphs 
+* Interactive elelments
+    *
 
