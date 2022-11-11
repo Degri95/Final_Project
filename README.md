@@ -52,18 +52,25 @@ The second dataset that was preprocessed was the **census_county_pop** CSV file.
 
 ### Feature Engineering
 
+Only ``StandardScale`` was applied to the linear regression data at this time. 
+<br> When the logistical regression model is created, cancer rates will be iterated through, labeled, and added to the DataFrame as a column to be predicted as the Y variable in the model. The threshold for high risk is created by gathering data that is one standard deviation away from the mean. (This threshold may change)
+
 ### Training and Testing
+
+the ``train_test_split`` method from ``sklearn.model_selection`` will be used split the data into testing and data sets. Training data will be fit into the model and predictions will be made using the test data.
 
 ### Model Choices
 
 Linear and multiple linear regression will be used to predict cancer rate using the categorized health data as features. Each catergory of health data will be used in a multiple linear regression to create their own predictions. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships.
+
+A logistic regression model will be created to predict high risk (cancer) counties using the categorized health data as features.
 
 ## Databases
 
 - We are using PostgreSQL hosted by AWS. We are creating two tables. One table contains our county variable (Health related data) and the other has a population density data.In addition, we are using PySpark to transform, load and extract before hosting on a remote server.
 - The machine learning model will be connected to the database (PostgreSQL).
 
-![PostgreSQL Schema](images/Schema.png)
+
 
 
 
