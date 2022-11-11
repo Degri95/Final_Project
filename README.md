@@ -73,5 +73,6 @@ Linear and multiple linear regression will be used to predict cancer rate using 
     * Tableau - we want to use a Tableau to create various graphs and add them to our website
     * Dash - We want to use Dash to create our website and display our findings and pgraphs 
 * Interactive elelments
-    *
+    * Interactive map where you can look at all the counties in the country we have data from 
+    * Pull down menu of the counties that will show the health measures of the area
 
