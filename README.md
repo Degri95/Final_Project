@@ -33,6 +33,7 @@ The team is using slack to communicate between classes.  We also have a file to 
 - Jupyter Notebook
 - Tableau for mapping
 - Postgres for our database
+- AWS to host the data
 
 ## Data Exploration And Analysis
 We reviewed distributions by using box plots to better understand the various measures in our dataset.  We compared the crude with the age adjusted columns and determined to keep the age adjusted columns based on our approach of comparing measures accross counties.  We also completed some quick scatterplots and saw that some of the relationships between measures appeared to be linear.
@@ -54,11 +55,18 @@ The second dataset that was preprocessed was the **census_county_pop** CSV file.
 
 ### Feature Engineering
 
+Only ``StandardScale`` was applied to the linear regression data at this time. 
+<br> When the logistical regression model is created, cancer rates will be iterated through, labeled, and added to the DataFrame as a column to be predicted as the Y variable in the model. The threshold for high risk is created by gathering data that is one standard deviation away from the mean. (This threshold may change)
+
 ### Training and Testing
+
+the ``train_test_split`` method from ``sklearn.model_selection`` will be used split the data into testing and data sets. Training data will be fit into the model and predictions will be made using the test data.
 
 ### Model Choices
 
-Linear and multiple linear regression will be used to predict cancer rate using the categorized health data as features. Each catergory of health data will be used in a multiple linear regression to create their own predictions. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships.
+Linear and multiple linear regression will be used to predict cancer rate using the categorized health data as features. Each catergory of health data will be used in a multiple linear regression to create their own predictions. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships. There is limiations that come with multiple linear regression. Linear regression is very sensitive to outliers and falsely concluding correlation is causation can occur. We chose to keep outliers to keep our data's integrity in our analysis. The benefit of this model is that many features can be used to predict the cancer rate, and it lets the strength of the relationship be assessed between each feature and the prediction.
+
+<br>A logistic regression model will be created to predict high risk (cancer). Catergorized health data will be used as the features, and the dependent variable will be the high risk column. This column will specify if a column has a high rate of cancer that is defined in the feature engineering. A limitation to logisitic regression is the assumption of linearity between the features and the dependent variable. This model was chosen because it also gives importance of each feature, and is less inclined to over-fitting. 
 
 ## Databases
 
