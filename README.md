@@ -61,9 +61,9 @@ the ``train_test_split`` method from ``sklearn.model_selection`` will be used sp
 
 ### Model Choices
 
-Linear and multiple linear regression will be used to predict cancer rate using the categorized health data as features. Each catergory of health data will be used in a multiple linear regression to create their own predictions. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships.
+Linear and multiple linear regression will be used to predict cancer rate using the categorized health data as features. Each catergory of health data will be used in a multiple linear regression to create their own predictions. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships. There is limiations that come with multiple linear regression. Linear regression is very sensitive to outliers and falsely concluding correlation is causation can occur. We chose to keep outliers to keep our data's integrity in our analysis. The benefit of this model is that many features can be used to predict the cancer rate, and it lets the strength of the relationship be assessed between each feature and the prediction.
 
-A logistic regression model will be created to predict high risk (cancer) counties using the categorized health data as features.
+<br>A logistic regression model will be created to predict high risk (cancer). Catergorized health data will be used as the features, and the dependent variable will be the high risk column. This column will specify if a column has a high rate of cancer that is defined in the feature engineering. A limitation to logisitic regression is the assumption of linearity between the features and the dependent variable. This model was chosen because it also gives importance of each feature, and is less inclined to over-fitting. 
 
 ## Databases
 
