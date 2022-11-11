@@ -22,6 +22,9 @@ Possible alternative/supplemental questions
 - Does living in metropolitan area lead to higher health risks?
 - A specific health factor e.g Is there a correlation between hours of sleep per a night and obesity?
 
+## Slides
+
+https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNWap8/edit?usp=sharing
 
 ## Communication protocols
 The team is using slack to communicate between classes.  We also have a file to help us determine best times to meet outside of class if needed.  We are going to use slack for notifications on updates to the main branch.
