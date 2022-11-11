@@ -6,10 +6,9 @@ Topic: US Health
 Dataset is large and encompases possible variables that may be related to one another.  It also includes mapping components.  Health is a topic that affects everyone.  We wanted to better understand how health metrics might differ by location.
 
 ## Data Source
-We are using data from the 2021 Places Census data.  This data provides statistical estimates of measures related to health outcomes, prevention, and health risk behaviors for counties in the United State.  These are determined by combining various surveys for the same populations. 
+We are using data from the [2021 Places Census data](https://chronicdata.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2021-releas/kmvs-jkvx).  This data provides statistical estimates of measures related to health outcomes, prevention, and health risk behaviors for counties in the United State.  These are determined by combining various surveys for the same populations. 
 The data is sourced through the The United States Census bureau by counties
 
-https://chronicdata.cdc.gov/500-Cities-Places/PLACES-Census-Tract-Data-GIS-Friendly-Format-2021-/yjkw-uj5s
 
 ## Questions We Hope To Answer With The Data
 Main Question
@@ -22,6 +21,9 @@ Possible alternative/supplemental questions
 - Does living in metropolitan area lead to higher health risks?
 - A specific health factor e.g Is there a correlation between hours of sleep per a night and obesity?
 
+## Slides
+
+https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNWap8/edit?usp=sharing
 
 ## Communication Protocols
 The team is using slack to communicate between classes.  We also have a file to help us determine best times to meet outside of class if needed.  We are going to use slack for notifications on updates to the main branch.
@@ -71,7 +73,18 @@ Linear and multiple linear regression will be used to predict cancer rate using 
 - We are using PostgreSQL hosted by AWS. We are creating two tables. One table contains our county variable (Health related data) and the other has a population density data.In addition, we are using PySpark to transform, load and extract before hosting on a remote server.
 - The machine learning model will be connected to the database (PostgreSQL).
 
+<<<<<<< HEAD
 
+=======
+![PostgreSQL Schema](images/CDC_Data_tables_ERD.png)
+>>>>>>> d1b0c760e69643a15544c952f373ec2090fcdb72
 
+## Dashboard 
 
+* Description of tools
+    * Tableau - we will use Tableau to create various graphs, including an interactive map, and add them to our website
+    * Dash - we will use Dash to create our website and display our findings of the health measures we analyzed in different counties 
+* Interactive elelments
+    * Interactive map where the user can look at all the counties we have data from that will show information about the health measures we analyzed
+    * Pull down menu of the counties that will display the health measures of the area
 
