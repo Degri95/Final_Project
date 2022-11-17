@@ -76,7 +76,7 @@ A logistic regression model was tested to predict high risk (cancer). Catergoriz
 
 ![actual_vs_predicted](/images/actual_vs_predicted.png)
 
-The model predicts the percentage of population rate with cancer with a relatively low mean square error value, and an accuracy score above 90%. 
+The model predicts the percentage of population with cancer with a relatively low mean square error value, and an accuracy score above 90%. 
 
 ## Databases
 
