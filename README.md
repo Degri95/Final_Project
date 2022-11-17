@@ -6,14 +6,14 @@ Topic: US Health
 Dataset is large and encompases possible variables that may be related to one another.  It also includes mapping components.  Health is a topic that affects everyone.  We wanted to better understand how health metrics might differ by location.
 
 ## Data Source
-We are using data from the 2021 Places Census data.  This data provides statistical estimates of measures related to health outcomes, prevention, and health risk behaviors for counties in the United State.  These are determined by combining various surveys for the same populations. 
+We are using data from the [2021 Places Census data](https://chronicdata.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2021-releas/kmvs-jkvx).  This data provides statistical estimates of measures related to health outcomes, prevention, and health risk behaviors for counties in the United State.  These are determined by combining various surveys for the same populations. 
 The data is sourced through the The United States Census bureau by counties
 
-https://chronicdata.cdc.gov/500-Cities-Places/PLACES-Census-Tract-Data-GIS-Friendly-Format-2021-/yjkw-uj5s
 
 ## Questions We Hope To Answer With The Data
 Main Question
-- Can we predict a propensity of cancer based on rural or urban classification?
+
+- Can we predict the percentage of the national population that has cancer based on various other categories of health metrics at a county level?
 
 Possible alternative/supplemental questions
 - Are there behaviors that can be used to predict a population's medical outcomes such as cancer.
@@ -22,15 +22,17 @@ Possible alternative/supplemental questions
 - Does living in metropolitan area lead to higher health risks?
 - A specific health factor e.g Is there a correlation between hours of sleep per a night and obesity?
 
+## Slides
 
-## Communication Protocols
-The team is using slack to communicate between classes.  We also have a file to help us determine best times to meet outside of class if needed.  We are going to use slack for notifications on updates to the main branch.
+https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNWap8/edit?usp=sharing
 
 ## Tools To Be Used:
 - Python
 - Jupyter Notebook
 - Tableau for mapping
+- Dash
 - Postgres for our database
+- AWS to host the data
 
 ## Data Exploration And Analysis
 We reviewed distributions by using box plots to better understand the various measures in our dataset.  We compared the crude with the age adjusted columns and determined to keep the age adjusted columns based on our approach of comparing measures accross counties.  We also completed some quick scatterplots and saw that some of the relationships between measures appeared to be linear.
@@ -38,34 +40,57 @@ We reviewed distributions by using box plots to better understand the various me
 ## Steps For Pre-Processing  
 - Dropped redundant columns
 - Deleted null rows
-- Added a column to designate whether a county would be defined as an urban or rural county
-*should this be deleted?
 
 ## Machine Learning Model
 
 ### Data preprocessing
 
-The first dataset that was preproccessed was the **PLACES_County** CSV file. The data was read into a Jupyter Notebook as a DataFrame and filtered to drop confidence interval columns. 
-``dropna()`` was applied to the DataFrame and a loop was used to create a new column that labels rows based on total population of each county. The DataFrame was then saved as a CSV and imported into an AWS server in a google colab notebook.
+The dataset that was preproccessed was the **PLACES_County** CSV file. The data was read into a Jupyter Notebook as a DataFrame and filtered to drop confidence interval columns. Next
+``dropna()`` was applied to the DataFrame and seperate DataFrames were created to match our created SQL tables. The DataFrames were then imported into an AWS server in a google colab notebook. 
 
-The second dataset that was preprocessed was the **census_county_pop** CSV file. the data was read into a Jupyter Notebook as a DataFrame and filtered to drop empty columns. A loop then used to create a new column that contains labels based on population density for each row. This DataFrame was then saved as a CSV and imported into an AWS server in a google colab notebook.
+The second dataset that was preprocessed was the **census_county_pop** CSV file. the data was read into a Jupyter Notebook as a DataFrame and ``dropna()`` was applied to drop empty columns. The DataFrame was used to extract population and population densiity data, and joined with other DataFrames to be uploaded into AWS.
 
 ### Feature Engineering
 
+Scaling was not applied to the linear regression data, as all features ranged between 0 and 100. The three DataFrames were combined into a DataFrame and used for the training and testing.
+
+When the logistical regression model was created, cancer rates were iterated through, labeled, and added to the DataFrame as a column to be predicted as the Y variable in the model. The threshold for high risk is created by gathering data that is one standard deviation away from the mean. (This threshold may change). This model was later **dropped**.
+
 ### Training and Testing
+
+The model was trained using all data from the three categories created in the preprocessing step joined together. the ``train_test_split`` method from ``sklearn.model_selection`` will be used split the data into testing and datasets. The model will then make predictions on cancer rate based on the testing data.
 
 ### Model Choices
 
-PCA and K-means clustinging will be used to identify unique clusting in the data. Input will be all health related variables and the **RuralUrban** column encoded. The features will be scaled and PCA will be applied to reduce dimensionallity to three components. This will allow the data to be plotted using 3D graphs. Drilling down, each category of data will have clustering applied. This includes preventative service, risk factors, and health outcomes.
+A multiple linear regression model will be used to predict cancer rate using the categorized health data as features. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships. There is limiations that come with multiple linear regression. Linear regression is very sensitive to outliers and falsely concluding correlation is causation can occur. We chose to keep outliers to keep our data's integrity in our analysis. The benefit of this model is that many features can be used to predict the cancer rate, and it lets the strength of the relationship be assessed between each feature and the prediction.
 
-Linear and multiple linear regression will be used to predict cancer rate using the categorized health data as features.  
+A logistic regression model was tested to predict high risk (cancer). Catergorized health data will be used as the features, and the dependent variable will be the high risk column. This column will specify if a column has a high rate of cancer that is defined in the feature engineering. A limitation to logisitic regression is the assumption of linearity between the features and the dependent variable. This model was chosen because it also gives importance of each feature, and is less inclined to over-fitting. This model was **dropped** due to the fact that a high risk label can be applied after the linear regression made it's prediction.
+
+### Accuracy
+
+| Metric      | Score |
+| ----------- | ----------- |
+| R2 Score      | .91       |
+| Mean Squared Error | .014 |
+| Root Mean Squared Error | .012 |
+
+![actual_vs_predicted](/images/actual_vs_predicted.png)
+
+The model predicts the percentage of population with cancer with a relatively low mean square error value, and an accuracy score above 90%. 
 
 ## Databases
 
 - We are using PostgreSQL hosted by AWS. We are creating two tables. One table contains our county variable (Health related data) and the other has a population density data.In addition, we are using PySpark to transform, load and extract before hosting on a remote server.
 - The machine learning model will be connected to the database (PostgreSQL).
 
-![PostgreSQL Schema](images/Schema.png)
+![PostgreSQL Schema](images/CDC_Data_tables_ERD.png)
 
+## Dashboard 
 
+* Description of tools
+    * Tableau - we will use Tableau to create various graphs, including an interactive map, and add them to our website
+    * Dash - we will use Dash to create our website and display our findings of the health measures we analyzed in different counties 
+* Interactive elelments
+    * Interactive map where the user can look at all the counties we have data from that will show information about the health measures we analyzed
+    * Pull down menu of the counties that will display the health measures of the area
 
