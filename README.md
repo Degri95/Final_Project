@@ -12,7 +12,8 @@ The data is sourced through the The United States Census bureau by counties
 
 ## Questions We Hope To Answer With The Data
 Main Question
-- Can we predict a propensity of cancer based on other categories of health metrics from the same county?
+
+- Can we predict the percentage of the national population that has cancer based on various other categories of health metrics at a county level?
 
 Possible alternative/supplemental questions
 - Are there behaviors that can be used to predict a population's medical outcomes such as cancer.
@@ -32,6 +33,7 @@ The team is using slack to communicate between classes.  We also have a file to 
 - Python
 - Jupyter Notebook
 - Tableau for mapping
+- Dash
 - Postgres for our database
 - AWS to host the data
 
@@ -41,8 +43,6 @@ We reviewed distributions by using box plots to better understand the various me
 ## Steps For Pre-Processing  
 - Dropped redundant columns
 - Deleted null rows
-- Added a column to designate whether a county would be defined as an urban or rural county
-*should this be deleted?
 
 ## Machine Learning Model
 
