@@ -46,7 +46,7 @@ We reviewed distributions by using box plots to better understand the various me
 ### Data preprocessing
 
 The dataset that was preproccessed was the **PLACES_County** CSV file. The data was read into a Jupyter Notebook as a DataFrame and filtered to drop confidence interval columns. Next
-``dropna()`` was applied to the DataFrame and Dataframes were created to match our created SQL tables. The DataFrames were then imported into an AWS server in a google colab notebook. 
+``dropna()`` was applied to the DataFrame and seperate DataFrames were created to match our created SQL tables. The DataFrames were then imported into an AWS server in a google colab notebook. 
 
 The second dataset that was preprocessed was the **census_county_pop** CSV file. the data was read into a Jupyter Notebook as a DataFrame and ``dropna()`` was applied to drop empty columns. The DataFrame was used to extract population and population densiity data, and joined with other DataFrames to be uploaded into AWS.
 
