@@ -3,19 +3,21 @@
 Topic: US Health
 
 ## Reason Topic Was Selected:
-Dataset is large and encompases possible variables that may be related to one another.  It also includes mapping components.  Health is a topic that affects everyone.  We wanted to better understand how health metrics might differ by location.
+
+Dataset is large and encompases possible variables that may be related to one another. It also includes mapping components.  Health is a topic that affects everyone.  We wanted to better understand how health metrics might differ by location.
 
 ## Data Source
-We are using data from the [2021 Places Census data](https://chronicdata.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2021-releas/kmvs-jkvx).  This data provides statistical estimates of measures related to health outcomes, prevention, and health risk behaviors for counties in the United State.  These are determined by combining various surveys for the same populations. 
-The data is sourced through the The United States Census bureau by counties
 
+We are using data from the [2021 Places Census data](https://chronicdata.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2021-releas/kmvs-jkvx).  This data provides a percentage of statistical estimates of measures related to health outcomes. The data includes prevention and health risk behaviors for counties in the United States. These are determined by combining various surveys for the same populations. The data is sourced through the The United States Census bureau by counties.
 
 ## Questions We Hope To Answer With The Data
-Main Question
+
+### Main Question
 
 - Can we predict the percentage of the national population that has cancer based on various other categories of health metrics at a county level?
 
-Possible alternative/supplemental questions
+### Possible alternative/supplemental questions
+
 - Are there behaviors that can be used to predict a population's medical outcomes such as cancer.
 - Is there a difference in medical outcomes for populations based on if they sleep less than 7 hrs a day.
 - Are there locations that have differences in their medical outcomes to help identify areas where there may be interventions.
@@ -27,19 +29,17 @@ Possible alternative/supplemental questions
 https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNWap8/edit?usp=sharing
 
 ## Tools To Be Used:
+
 - Python
 - Jupyter Notebook
-- Tableau for mapping
 - Dash
 - Postgres for our database
 - AWS to host the data
+- Heroku
 
 ## Data Exploration And Analysis
-We reviewed distributions by using box plots to better understand the various measures in our dataset.  We compared the crude with the age adjusted columns and determined to keep the age adjusted columns based on our approach of comparing measures accross counties.  We also completed some quick scatterplots and saw that some of the relationships between measures appeared to be linear.
 
-## Steps For Pre-Processing  
-- Dropped redundant columns
-- Deleted null rows
+We reviewed distributions by using box plots to better understand the various measures in our dataset.  We compared the crude with the age adjusted columns, and determined to keep the age adjusted columns based on our approach of comparing measures accross counties.  We also completed some quick scatterplots and saw that some of the relationships between measures appeared to be linear. 
 
 ## Machine Learning Model
 
