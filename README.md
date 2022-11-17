@@ -12,7 +12,8 @@ The data is sourced through the The United States Census bureau by counties
 
 ## Questions We Hope To Answer With The Data
 Main Question
-- Can we predict a propensity of cancer based on other categories of health metrics from the same county?
+
+- Can we predict the percentage of the national population that has cancer based on various other categories of health metrics at a county level?
 
 Possible alternative/supplemental questions
 - Are there behaviors that can be used to predict a population's medical outcomes such as cancer.
@@ -25,13 +26,11 @@ Possible alternative/supplemental questions
 
 https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNWap8/edit?usp=sharing
 
-## Communication Protocols
-The team is using slack to communicate between classes.  We also have a file to help us determine best times to meet outside of class if needed.  We are going to use slack for notifications on updates to the main branch.
-
 ## Tools To Be Used:
 - Python
 - Jupyter Notebook
 - Tableau for mapping
+- Dash
 - Postgres for our database
 - AWS to host the data
 
@@ -41,32 +40,43 @@ We reviewed distributions by using box plots to better understand the various me
 ## Steps For Pre-Processing  
 - Dropped redundant columns
 - Deleted null rows
-- Added a column to designate whether a county would be defined as an urban or rural county
-*should this be deleted?
 
 ## Machine Learning Model
 
 ### Data preprocessing
 
-The first dataset that was preproccessed was the **PLACES_County** CSV file. The data was read into a Jupyter Notebook as a DataFrame and filtered to drop confidence interval columns. 
-``dropna()`` was applied to the DataFrame and a loop was used to create a new column that labels rows based on total population of each county. The DataFrame was then saved as a CSV and imported into an AWS server in a google colab notebook.
+The dataset that was preproccessed was the **PLACES_County** CSV file. The data was read into a Jupyter Notebook as a DataFrame and filtered to drop confidence interval columns. Next
+``dropna()`` was applied to the DataFrame and seperate DataFrames were created to match our created SQL tables. The DataFrames were then imported into an AWS server in a google colab notebook. 
 
-The second dataset that was preprocessed was the **census_county_pop** CSV file. the data was read into a Jupyter Notebook as a DataFrame and filtered to drop empty columns. A loop then used to create a new column that contains labels based on population density for each row. This DataFrame was then saved as a CSV and imported into an AWS server in a google colab notebook.
+The second dataset that was preprocessed was the **census_county_pop** CSV file. the data was read into a Jupyter Notebook as a DataFrame and ``dropna()`` was applied to drop empty columns. The DataFrame was used to extract population and population densiity data, and joined with other DataFrames to be uploaded into AWS.
 
 ### Feature Engineering
 
-Only ``StandardScale`` was applied to the linear regression data at this time. 
-<br> When the logistical regression model is created, cancer rates will be iterated through, labeled, and added to the DataFrame as a column to be predicted as the Y variable in the model. The threshold for high risk is created by gathering data that is one standard deviation away from the mean. (This threshold may change)
+Scaling was not applied to the linear regression data, as all features ranged between 0 and 100. The three DataFrames were combined into a DataFrame and used for the training and testing.
+
+When the logistical regression model was created, cancer rates were iterated through, labeled, and added to the DataFrame as a column to be predicted as the Y variable in the model. The threshold for high risk is created by gathering data that is one standard deviation away from the mean. (This threshold may change). This model was later **dropped**.
 
 ### Training and Testing
 
-the ``train_test_split`` method from ``sklearn.model_selection`` will be used split the data into testing and data sets. Training data will be fit into the model and predictions will be made using the test data.
+The model was trained using all data from the three categories created in the preprocessing step joined together. the ``train_test_split`` method from ``sklearn.model_selection`` will be used split the data into testing and datasets. The model will then make predictions on cancer rate based on the testing data.
 
 ### Model Choices
 
-Linear and multiple linear regression will be used to predict cancer rate using the categorized health data as features. Each catergory of health data will be used in a multiple linear regression to create their own predictions. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships. There is limiations that come with multiple linear regression. Linear regression is very sensitive to outliers and falsely concluding correlation is causation can occur. We chose to keep outliers to keep our data's integrity in our analysis. The benefit of this model is that many features can be used to predict the cancer rate, and it lets the strength of the relationship be assessed between each feature and the prediction.
+A multiple linear regression model will be used to predict cancer rate using the categorized health data as features. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships. There is limiations that come with multiple linear regression. Linear regression is very sensitive to outliers and falsely concluding correlation is causation can occur. We chose to keep outliers to keep our data's integrity in our analysis. The benefit of this model is that many features can be used to predict the cancer rate, and it lets the strength of the relationship be assessed between each feature and the prediction.
 
-<br>A logistic regression model will be created to predict high risk (cancer). Catergorized health data will be used as the features, and the dependent variable will be the high risk column. This column will specify if a column has a high rate of cancer that is defined in the feature engineering. A limitation to logisitic regression is the assumption of linearity between the features and the dependent variable. This model was chosen because it also gives importance of each feature, and is less inclined to over-fitting. 
+A logistic regression model was tested to predict high risk (cancer). Catergorized health data will be used as the features, and the dependent variable will be the high risk column. This column will specify if a column has a high rate of cancer that is defined in the feature engineering. A limitation to logisitic regression is the assumption of linearity between the features and the dependent variable. This model was chosen because it also gives importance of each feature, and is less inclined to over-fitting. This model was **dropped** due to the fact that a high risk label can be applied after the linear regression made it's prediction.
+
+### Accuracy
+
+| Metric      | Score |
+| ----------- | ----------- |
+| R2 Score      | .91       |
+| Mean Squared Error | .014 |
+| Root Mean Squared Error | .012 |
+
+![actual_vs_predicted](/images/actual_vs_predicted.png)
+
+The model predicts the percentage of population with cancer with a relatively low mean square error value, and an accuracy score above 90%. 
 
 ## Databases
 
