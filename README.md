@@ -8,21 +8,20 @@ Dataset is large and encompases possible variables that may be related to one an
 
 ## Data Source
 
-We are using data from the [2021 Places Census data](https://chronicdata.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2021-releas/kmvs-jkvx).  This data provides a percentage of statistical estimates of measures related to health outcomes. The data includes prevention and health risk behaviors for counties in the United States. These are determined by combining various surveys for the same populations. The data is sourced through the The United States Census bureau by counties.
+We are using data from the [2021 Places Census data](https://chronicdata.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2021-releas/kmvs-jkvx).  This data provides measures related to health outcomes. The data includes prevention and health risk behaviors for counties in the United States. These are determined by combining various surveys for the same populations. The data is sourced through the The United States Census bureau by counties.
 
-## Questions We Hope To Answer With The Data
+Measure definitions can be view at ********ADD LINK
+The measures are defined as an estimate of the percentage of population in the county who meets certain criteria.
 
-### Main Question
+The data contains population and geographic features for the locations.
+
+## Question We Hope To Answer With The Data
+
+### Main Questions
 
 - Can we predict the percentage of the national population that has cancer based on various other categories of health metrics at a county level?
+- Are there features related to health: preventive measure, risk behaviors, or other medical outcomes that are correlated to cancer outcomes?
 
-### Possible alternative/supplemental questions
-
-- Are there behaviors that can be used to predict a population's medical outcomes such as cancer.
-- Is there a difference in medical outcomes for populations based on if they sleep less than 7 hrs a day.
-- Are there locations that have differences in their medical outcomes to help identify areas where there may be interventions.
-- Does living in metropolitan area lead to higher health risks?
-- A specific health factor e.g Is there a correlation between hours of sleep per a night and obesity?
 
 ## Slides
 
@@ -39,9 +38,7 @@ https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNW
 
 ## Data Exploration And Analysis
 
-We reviewed distributions by using box plots to better understand the various measures in our dataset.  We compared the crude with the age adjusted columns, and determined to keep the age adjusted columns based on our approach of comparing measures accross counties.  We also completed some quick scatterplots and saw that some of the relationships between measures appeared to be linear. 
-
-## Machine Learning Model
+We reviewed distributions by using box plots to better understand the various measures in our dataset.   We chose to keep outliers to keep our data's integrity in our analysis. We compared the crude with the age adjusted columns, and determined to keep the age adjusted columns based on our approach of comparing measures accross counties.  We also completed some quick scatterplots and saw that some of the relationships between measures appeared to be linear. 
 
 ### Data preprocessing
 
@@ -49,6 +46,8 @@ The dataset that was preproccessed was the **PLACES_County** CSV file. The data 
 ``dropna()`` was applied to the DataFrame and seperate DataFrames were created to match our created SQL tables. The DataFrames were then imported into an AWS server in a google colab notebook. 
 
 The second dataset that was preprocessed was the **census_county_pop** CSV file. the data was read into a Jupyter Notebook as a DataFrame and ``dropna()`` was applied to drop empty columns. The DataFrame was used to extract population and population densiity data, and joined with other DataFrames to be uploaded into AWS.
+
+## Machine Learning Model
 
 ### Feature Engineering
 
@@ -62,7 +61,7 @@ The model was trained using all data from the three categories created in the pr
 
 ### Model Choices
 
-A multiple linear regression model will be used to predict cancer rate using the categorized health data as features. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships. There is limiations that come with multiple linear regression. Linear regression is very sensitive to outliers and falsely concluding correlation is causation can occur. We chose to keep outliers to keep our data's integrity in our analysis. The benefit of this model is that many features can be used to predict the cancer rate, and it lets the strength of the relationship be assessed between each feature and the prediction.
+A multiple linear regression model will be used to predict cancer rate using the categorized health data as features. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships. There is limiations that come with multiple linear regression. Linear regression is very sensitive to outliers and falsely concluding correlation is causation can occur. The benefit of this model is that many features can be used to predict the cancer rate, and it lets the strength of the relationship be assessed between each feature and the prediction.
 
 A logistic regression model was tested to predict high risk (cancer). Catergorized health data will be used as the features, and the dependent variable will be the high risk column. This column will specify if a column has a high rate of cancer that is defined in the feature engineering. A limitation to logisitic regression is the assumption of linearity between the features and the dependent variable. This model was chosen because it also gives importance of each feature, and is less inclined to over-fitting. This model was **dropped** due to the fact that a high risk label can be applied after the linear regression made it's prediction.
 
@@ -80,7 +79,7 @@ The model predicts the percentage of population with cancer with a relatively lo
 
 ## Databases
 
-- We are using PostgreSQL hosted by AWS. We are creating two tables. One table contains our county variable (Health related data) and the other has a population density data.In addition, we are using PySpark to transform, load and extract before hosting on a remote server.
+- We are using PostgreSQL hosted by AWS. We are creating two tables. One table contains our county variable (Health related data) and the other has a population density data. In addition, we are using PySpark to transform, load and extract before hosting on a remote server.
 - The machine learning model will be connected to the database (PostgreSQL).
 
 ![PostgreSQL Schema](images/CDC_Data_tables_ERD.png)
@@ -88,9 +87,17 @@ The model predicts the percentage of population with cancer with a relatively lo
 ## Dashboard 
 
 * Description of tools
-    * Tableau - we will use Tableau to create various graphs, including an interactive map, and add them to our website
     * Dash - we will use Dash to create our website and display our findings of the health measures we analyzed in different counties 
 * Interactive elelments
     * Interactive map where the user can look at all the counties we have data from that will show information about the health measures we analyzed
     * Pull down menu of the counties that will display the health measures of the area
 
+
+
+## Recommendation for future analysis
+- Reviewing statistical analysis that could be covered for the site.
+- Are there behaviors that can be used to predict a population's medical outcomes such as cancer.
+- Is there a difference in medical outcomes for populations based on if they sleep less than 7 hrs a day.
+- Are there locations that have differences in their medical outcomes to help identify areas where there may be interventions.
+- Does living in metropolitan area lead to higher health risks?
+- A specific health factor e.g Is there a correlation between hours of sleep per a night and obesity?
