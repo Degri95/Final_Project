@@ -30,7 +30,14 @@ risk_data = pd.read_csv(health_risk_behaviors_file)
 prevention_file = Path('data/prevention_df.csv')  
 prevention_data = pd.read_csv(prevention_file)
 
+#Import correlation image
+image_path = 'assets/correlation_matrix.png'
+
+
 app = dash.Dash(external_stylesheets=[dbc.themes.SANDSTONE])
+
+
+
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -109,7 +116,15 @@ def render_page_content(pathname):
             ]
 
     elif pathname == "/page-3":
-        return html.H1("Machine learning", style={'textAlign':'center'})
+        return [
+            html.H1("Machine learning", style={'textAlign':'center'}),
+            
+            html.Img(src=image_path)
+
+            ]
+
+
+
     elif pathname == "/page-4":
         return html.H1("References", style={'textAlign':'center'})
         
