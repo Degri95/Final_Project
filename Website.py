@@ -9,6 +9,9 @@ from urllib.request import urlopen
 import json
 with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
     counties = json.load(response)
+
+
+
 file = Path('data/health_outcomes_df.csv')    
 data = pd.read_csv(file)
 county_df = data
@@ -30,16 +33,18 @@ risk_data = pd.read_csv(health_risk_behaviors_file)
 prevention_file = Path('data/prevention_df.csv')  
 prevention_data = pd.read_csv(prevention_file)
 
-#Import correlation image
+# Image paths
 image_path = 'assets/correlation_matrix.png'
+accuracy_path = 'assets/Accuracy.png'
+actual_v_predicted_path = 'assets/actual_vs_predicted.png'
 graph_path = 'assets/Graph.png'
 
 #import data for zip
 zip_file = Path('data/Zip_County_FIPS.csv')  
 zip_data = pd.read_csv(zip_file)
 
-app = dash.Dash(external_stylesheets=[dbc.themes.SANDSTONE])
 
+app = dash.Dash(external_stylesheets=[dbc.themes.SANDSTONE])
 
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
@@ -85,8 +90,6 @@ content = html.Div(id="page-content", style=CONTENT_STYLE)
 app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 
 
-
-
 #Callback for zip feature
 @app.callback(
     Output('zip-output', 'figure'),
@@ -95,42 +98,53 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 # Function for zip feature
 def make_bargraph(inputvalue):
     a = zip_data.query(f'ZIP == {inputvalue}')["STCOUNTYFP"].values[0]
-
-    #fig = px.bar(status_data[status_data.CountyFIPS == {a}], x=["MHLTH", "PHLTH", "GHLTH"], barmode="group", orientation="h")
-
     fig1 = px.bar(status_data[status_data.CountyFIPS == a], x=["MHLTH", "PHLTH", "GHLTH"], barmode="group", orientation="h")
-
     fig1.update_layout(transition_duration=500)
-
     return fig1
 
 
+# Figure variables
+fig2 = px.scatter_mapbox(mapping_df, lat="Lat", lon="Lon", text = 'CountyName', zoom = 2, size = 'total_population', 
+            color = 'CANCER', color_continuous_scale=px.colors.sequential.Viridis,
+            mapbox_style='open-street-map')
+fig3 = px.box(status_data, y=['MHLTH', 'PHLTH', 'GHLTH'] )
+fig4 = px.box(outcomes_data, y=['ARTHRITIS', 'CASTHMA', 'BPHIGH', 'CANCER', 'HIGHCHOL', 'KIDNEY', 'COPD', 'CHD', 'DEPRESSION', 'DIABETES', 'OBESITY', 'TEETHLOST', 'STROKE'] )
+fig5 = px.box(prevention_data, y=['ACCESS', 'CHECKUP', 'DENTAL', 'BPMED', 'CHOLSCREEN', 'MAMMOUSE', 'CERVICAL', 'COLON_SCREEN', 'COREM', 'COREW'] )
+fig6 = px.box(risk_data, y=['BINGE', 'CSMOKING', 'LPA', 'SLEEP'] )
 
 
+# Callback for different pages
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == "/":
         return [
             dbc.Container([
-                dbc.Row(
-                    html.P("Overview", style={'textAlign':'center'})
-                ),
-
                 dbc.Row([
-                    dbc.Col(html.P("Introduction to project", style={'textAlign':'center'})),
-                    dbc.Card([dbc.CardImg(src=graph_path),], style={"width": "30rem"},)
-                        ])])
-                ]
+                    dbc.Col([
+                        html.H3("Introduction to project", style={'textAlign':'center'}),
+                        html.Br(),
+                        html.P("Leveraging US county level estimates for health related measure, we seek to answer the following questions"),
+                        html.H4("Main Questions:"),
+                        html.P("Can we predict the percentage of the national population that has cancer based on various other categories of health metrics at a county level?"),
+                        html.P("Are there features related to health: preventive measure, risk behaviors, or other medical outcomes that are correlated to cancer outcomes?"),
+                    ], width=6),
+                    dbc.Col([ 
+                        dbc.Card([dbc.CardImg(src=graph_path),], style={"width": "30rem"},),
+                        ], width=3)
+                    ])
+                    ])
+                    
+        ]
 
     elif pathname == "/page-1":
         return [
             html.H1 ("Dashboard", style = {'textAlign':'center'}),
-            dcc.Graph(figure = px.scatter_mapbox(mapping_df, lat="Lat", lon="Lon", text = 'CountyName', zoom = 2, size = 'total_population', 
-            color = 'CANCER', color_continuous_scale=px.colors.sequential.Viridis,
-            mapbox_style='open-street-map')),
-            dcc.Input(id="zip-input", value="# Enter Zip"),
+            dcc.Graph(figure = fig2),
+            dcc.Input(id="zip-input", value="# Enter zip to update table below",
+            size="30"),
             dcc.Graph(id = "zip-output")     
-        
+
+# Delete if we want to keep the existing map        
 #            dcc.Graph(figure = px.choropleth_mapbox(df, geojson=counties, locations='CountyFIPS', color='CANCER',
 #                           color_continuous_scale="Viridis",
 #                           range_color=(0, 12),
@@ -144,27 +158,78 @@ def render_page_content(pathname):
     elif pathname == "/page-2":
         return [ 
             html.H1("Analysis", style={'textAlign':'center'}),
-            dcc.Graph(figure = px.box(status_data, y=['MHLTH', 'PHLTH', 'GHLTH'] )
-            ),
-            dcc.Graph(figure = px.box(outcomes_data, y=['ARTHRITIS', 'CASTHMA', 'BPHIGH', 'CANCER', 'HIGHCHOL', 'KIDNEY', 'COPD', 'CHD', 'DEPRESSION', 'DIABETES', 'OBESITY', 'TEETHLOST', 'STROKE'] )
-            ),
-            dcc.Graph(figure = px.box(prevention_data, y=['ACCESS', 'CHECKUP', 'DENTAL', 'BPMED', 'CHOLSCREEN', 'MAMMOUSE', 'CERVICAL', 'COLON_SCREEN', 'COREM', 'COREW'] )
-            ),
-            dcc.Graph(figure = px.box(risk_data, y=['BINGE', 'CSMOKING', 'LPA', 'SLEEP'] )
-            ),
+            html.Br(),
+            html.P("We reviewed distributions by using box plots to better understand the various measures in our dataset.   We chose to keep outliers to keep our data's integrity in our analysis. We compared the crude with the age adjusted columns, and determined to keep the age adjusted columns based on our approach of comparing measures accross counties.  We also completed some quick scatterplots and saw that some of the relationships between measures appeared to be linear."),
+            html.Br(),
+            html.P("Completing a correlation table, we were able to see how the measure may or may not be correlated with each other."),
+            dcc.Graph(figure = fig3),
+            dcc.Graph(figure = fig4),
+            dcc.Graph(figure = fig5),
+            dcc.Graph(figure = fig6),
+            dbc.Card([dbc.CardImg(src=image_path),],style={"width": "50rem"},),
             ]
 
     elif pathname == "/page-3":
         return [
-            html.H1("Machine learning", style={'textAlign':'center'}),
-            dbc.Card([dbc.CardImg(src=image_path),], style={"width": "30rem"},)
-            ]
+            html.H1("Machine Learning", style={'textAlign':'center'}),
 
+            dbc.Container([
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([dbc.CardImg(src=actual_v_predicted_path),], style={"width": "30rem"},),
+                        dbc.Card([dbc.CardImg(src=accuracy_path),],style={"width": "30rem"},),
+                    ]),
+                    dbc.Col([
+                        html.H3("Model Choice", style={'textAlign':'center'}),
+                        html.Br(),                        
+                        html.P("A multiple linear regression model will be used to predict cancer rate using the categorized health data as features. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships. There is limiations that come with multiple linear regression. Linear regression is very sensitive to outliers and falsely concluding correlation is causation can occur. The benefit of this model is that many features can be used to predict the cancer rate, and it lets the strength of the relationship be assessed between each feature and the prediction."),
+                        html.Br(),                        
+                        html.P("The model predicts the percentage of population with cancer with a relatively low mean square error value, and an accuracy score above 90%.")
+                    ])
+                ])
+            ])
+        ]
 
 
     elif pathname == "/page-4":
-        return html.H1("References", style={'textAlign':'center'})
+        return [
+            html.H1("References", style={'textAlign':'center'}),
+            html.H3("Our references include"),
+
+            dbc.Card([
+                dbc.CardBody([
+                    html.H4("County Health Measures", className="card-title"),
+                    html.P("All health measures and population data sourced from the CDC Places dataset.",
+                    className="card-text"),
+                dbc.Button("Go to the CDC Webpage", href="https://chronicdata.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2021-releas/kmvs-jkvx", 
+                external_link=True, color="primary"),
+                ]),
+                ],
+                style={"width": "25rem"},),
+            dbc.Card([
+                dbc.CardBody([
+                    html.H4("Definitions for measures", className="card-title"),
+                    html.P("Complete definitions for health measures.",
+                    className="card-text",),
+                dbc.Button("Go to the measure-definitions page",href="https://www.cdc.gov/places/measure-definitions/index.html", 
+                external_link=True, color="primary"),
+                ]),
+                ],
+                style={"width": "25rem"},),
+            dbc.Card([
+                dbc.CardBody([
+                    html.H4("Zip Code Reference", className="card-title"),
+                    html.P("Table to look up FIPS IDs by zip code source from Kaggle.",
+                    className="card-text",),
+                dbc.Button("Go to Kaggle", href="https://www.kaggle.com/datasets/danofer/zipcodes-county-fips-crosswalk", 
+                external_link=True, color="primary"),
+                ]),
+                ],
+                style={"width": "25rem"},)
+            ]
         
+
+
     # If the user tries to reach a different page, return a 404 message
     return html.Div(
         [
