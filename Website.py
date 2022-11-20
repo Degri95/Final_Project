@@ -11,12 +11,12 @@ with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-c
     counties = json.load(response)
 
 
-##Delete these if we don't use the chlo-maps
-#file = Path('data/health_outcomes_df.csv')    
-#data = pd.read_csv(file)
-#county_df = data
-#df = county_df[["CountyFIPS", "CANCER"]]
-#df["CountyFIPS"] = df["CountyFIPS"].apply(str)
+
+file = Path('data/health_outcomes_df.csv')    
+data = pd.read_csv(file)
+county_df = data
+df = county_df[["CountyFIPS", "CANCER"]]
+df["CountyFIPS"] = df["CountyFIPS"].apply(str)
 
 #Import data for mapping
 locationfile = Path('data/mapping_df.csv')  
@@ -173,21 +173,24 @@ def render_page_content(pathname):
         return [
             html.H1("References", style={'textAlign':'center'}),
             html.H3("Our references include"),
+
             dbc.Card([
                 dbc.CardBody([
                     html.H4("County Health Measures", className="card-title"),
-                    html.P("All health measures sourced from the CDC Places dataset.",
+                    html.P("All health measures and population data sourced from the CDC Places dataset.",
                     className="card-text"),
-                dbc.Button("Go to the CDC Webpage", color="primary"),
+                dbc.Button("Go to the CDC Webpage", href="https://chronicdata.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2021-releas/kmvs-jkvx", 
+                external_link=True, color="primary"),
                 ]),
                 ],
                 style={"width": "25rem"},),
             dbc.Card([
                 dbc.CardBody([
-                    html.H4("County Population", className="card-title"),
-                    html.P("County population was sourced from the CDC places county file.",
+                    html.H4("Definitions for measures", className="card-title"),
+                    html.P("Complete definitions for health measures.",
                     className="card-text",),
-                dbc.Button("Go to the CDC webpage", color="primary"),
+                dbc.Button("Go to the measure-definitions page",href="https://www.cdc.gov/places/measure-definitions/index.html", 
+                external_link=True, color="primary"),
                 ]),
                 ],
                 style={"width": "25rem"},),
@@ -196,12 +199,15 @@ def render_page_content(pathname):
                     html.H4("Zip Code Reference", className="card-title"),
                     html.P("Table to look up FIPS IDs by zip code source from Kaggle.",
                     className="card-text",),
-                dbc.Button("Go to Kaggle", color="primary"),
+                dbc.Button("Go to Kaggle", href="https://www.kaggle.com/datasets/danofer/zipcodes-county-fips-crosswalk", 
+                external_link=True, color="primary"),
                 ]),
                 ],
                 style={"width": "25rem"},)
             ]
         
+
+
     # If the user tries to reach a different page, return a 404 message
     return html.Div(
         [
