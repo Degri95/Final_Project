@@ -4,16 +4,16 @@ Topic: US Health
 
 ## Reason Topic Was Selected:
 
-Dataset is large and encompases possible variables that may be related to one another. It also includes mapping components.  Health is a topic that affects everyone.  We wanted to better understand how health metrics might differ by location.
+Health is a topic that affects everyone.  We wanted to better understand how health metrics might differ by location.  The dataset for counties is large and encompases possible variables that may be related to one another. It also includes mapping components.
 
 ## Data Source
 
-We are using data from the [2021 Places Census data](https://chronicdata.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2021-releas/kmvs-jkvx).  This data provides measures related to health outcomes. The data includes prevention and health risk behaviors for counties in the United States. These are determined by combining various surveys for the same populations. The data is sourced through the The United States Census bureau by counties.
+We are using data from the [2021 Places Census data](https://chronicdata.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2021-releas/kmvs-jkvx).  This data provides measures related to health outcomes as well as geographic features. The data includes prevention and health risk behaviors for counties in the United States. These are determined by combining various surveys for the same populations. The data is sourced through the The United States Census bureau by counties.
 
 Measure definitions can be view at [Measure-definitions](https://www.cdc.gov/places/measure-definitions/index.html).
 The measures are defined as an estimate of the percentage of population in the county who meets certain criteria.
 
-The data contains population and geographic features for the locations.
+County population data was sourced from the [Social Explorer Market Profile Data 2020.](http://www.socialexplorer.com/pub/reportdata/HtmlResults.aspx?reportid=R13242424).
 
 ## Question We Hope To Answer With The Data
 
