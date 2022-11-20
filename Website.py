@@ -9,11 +9,14 @@ from urllib.request import urlopen
 import json
 with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
     counties = json.load(response)
-file = Path('data/health_outcomes_df.csv')    
-data = pd.read_csv(file)
-county_df = data
-df = county_df[["CountyFIPS", "CANCER"]]
-df["CountyFIPS"] = df["CountyFIPS"].apply(str)
+
+
+##Delete these if we don't use the chlo-maps
+#file = Path('data/health_outcomes_df.csv')    
+#data = pd.read_csv(file)
+#county_df = data
+#df = county_df[["CountyFIPS", "CANCER"]]
+#df["CountyFIPS"] = df["CountyFIPS"].apply(str)
 
 #Import data for mapping
 locationfile = Path('data/mapping_df.csv')  
@@ -38,8 +41,8 @@ graph_path = 'assets/Graph.png'
 zip_file = Path('data/Zip_County_FIPS.csv')  
 zip_data = pd.read_csv(zip_file)
 
-app = dash.Dash(external_stylesheets=[dbc.themes.SANDSTONE])
 
+app = dash.Dash(external_stylesheets=[dbc.themes.SANDSTONE])
 
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
@@ -85,8 +88,6 @@ content = html.Div(id="page-content", style=CONTENT_STYLE)
 app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 
 
-
-
 #Callback for zip feature
 @app.callback(
     Output('zip-output', 'figure'),
@@ -95,42 +96,52 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 # Function for zip feature
 def make_bargraph(inputvalue):
     a = zip_data.query(f'ZIP == {inputvalue}')["STCOUNTYFP"].values[0]
-
-    #fig = px.bar(status_data[status_data.CountyFIPS == {a}], x=["MHLTH", "PHLTH", "GHLTH"], barmode="group", orientation="h")
-
     fig1 = px.bar(status_data[status_data.CountyFIPS == a], x=["MHLTH", "PHLTH", "GHLTH"], barmode="group", orientation="h")
-
     fig1.update_layout(transition_duration=500)
-
     return fig1
 
 
+# Figure variables
+fig2 = px.scatter_mapbox(mapping_df, lat="Lat", lon="Lon", text = 'CountyName', zoom = 2, size = 'total_population', 
+            color = 'CANCER', color_continuous_scale=px.colors.sequential.Viridis,
+            mapbox_style='open-street-map')
+fig3 = px.box(status_data, y=['MHLTH', 'PHLTH', 'GHLTH'] )
+fig4 = px.box(outcomes_data, y=['ARTHRITIS', 'CASTHMA', 'BPHIGH', 'CANCER', 'HIGHCHOL', 'KIDNEY', 'COPD', 'CHD', 'DEPRESSION', 'DIABETES', 'OBESITY', 'TEETHLOST', 'STROKE'] )
+fig5 = px.box(prevention_data, y=['ACCESS', 'CHECKUP', 'DENTAL', 'BPMED', 'CHOLSCREEN', 'MAMMOUSE', 'CERVICAL', 'COLON_SCREEN', 'COREM', 'COREW'] )
+fig6 = px.box(risk_data, y=['BINGE', 'CSMOKING', 'LPA', 'SLEEP'] )
 
 
+# Callback for different pages
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == "/":
         return [
             dbc.Container([
-                dbc.Row(
-                    html.P("Overview", style={'textAlign':'center'})
-                ),
-
                 dbc.Row([
-                    dbc.Col(html.P("Introduction to project", style={'textAlign':'center'})),
-                    dbc.Card([dbc.CardImg(src=graph_path),], style={"width": "30rem"},)
-                        ])])
-                ]
+                    dbc.Col([
+                        html.H3("Introduction to project", style={'textAlign':'center'}),
+                        html.Br(),
+                        html.P("Leveraging US county level estimates for health related measure, we seek to answer the following questions"),
+                        html.H4("Main Questions:"),
+                        html.P("Can we predict the percentage of the national population that has cancer based on various other categories of health metrics at a county level?"),
+                        html.P("Are there features related to health: preventive measure, risk behaviors, or other medical outcomes that are correlated to cancer outcomes?"),
+                    ], width=6),
+                    dbc.Col([ 
+                        dbc.Card([dbc.CardImg(src=graph_path),], style={"width": "30rem"},),
+                        ], width=3)
+                    ])
+                    ])
+                    
+        ]
 
     elif pathname == "/page-1":
         return [
             html.H1 ("Dashboard", style = {'textAlign':'center'}),
-            dcc.Graph(figure = px.scatter_mapbox(mapping_df, lat="Lat", lon="Lon", text = 'CountyName', zoom = 2, size = 'total_population', 
-            color = 'CANCER', color_continuous_scale=px.colors.sequential.Viridis,
-            mapbox_style='open-street-map')),
+            dcc.Graph(figure = fig2),
             dcc.Input(id="zip-input", value="# Enter Zip"),
             dcc.Graph(id = "zip-output")     
-        
+
+# Delete if we want to keep the existing map        
 #            dcc.Graph(figure = px.choropleth_mapbox(df, geojson=counties, locations='CountyFIPS', color='CANCER',
 #                           color_continuous_scale="Viridis",
 #                           range_color=(0, 12),
@@ -144,14 +155,11 @@ def render_page_content(pathname):
     elif pathname == "/page-2":
         return [ 
             html.H1("Analysis", style={'textAlign':'center'}),
-            dcc.Graph(figure = px.box(status_data, y=['MHLTH', 'PHLTH', 'GHLTH'] )
-            ),
-            dcc.Graph(figure = px.box(outcomes_data, y=['ARTHRITIS', 'CASTHMA', 'BPHIGH', 'CANCER', 'HIGHCHOL', 'KIDNEY', 'COPD', 'CHD', 'DEPRESSION', 'DIABETES', 'OBESITY', 'TEETHLOST', 'STROKE'] )
-            ),
-            dcc.Graph(figure = px.box(prevention_data, y=['ACCESS', 'CHECKUP', 'DENTAL', 'BPMED', 'CHOLSCREEN', 'MAMMOUSE', 'CERVICAL', 'COLON_SCREEN', 'COREM', 'COREW'] )
-            ),
-            dcc.Graph(figure = px.box(risk_data, y=['BINGE', 'CSMOKING', 'LPA', 'SLEEP'] )
-            ),
+            html.P("Recap of exploration and decision making"),
+            dcc.Graph(figure = fig3),
+            dcc.Graph(figure = fig4),
+            dcc.Graph(figure = fig5),
+            dcc.Graph(figure = fig6),
             ]
 
     elif pathname == "/page-3":
@@ -161,9 +169,38 @@ def render_page_content(pathname):
             ]
 
 
-
     elif pathname == "/page-4":
-        return html.H1("References", style={'textAlign':'center'})
+        return [
+            html.H1("References", style={'textAlign':'center'}),
+            html.H3("Our references include"),
+            dbc.Card([
+                dbc.CardBody([
+                    html.H4("County Health Measures", className="card-title"),
+                    html.P("All health measures sourced from the CDC Places dataset.",
+                    className="card-text"),
+                dbc.Button("Go to the CDC Webpage", color="primary"),
+                ]),
+                ],
+                style={"width": "25rem"},),
+            dbc.Card([
+                dbc.CardBody([
+                    html.H4("County Population", className="card-title"),
+                    html.P("County population was sourced from the CDC places county file.",
+                    className="card-text",),
+                dbc.Button("Go to the CDC webpage", color="primary"),
+                ]),
+                ],
+                style={"width": "25rem"},),
+            dbc.Card([
+                dbc.CardBody([
+                    html.H4("Zip Code Reference", className="card-title"),
+                    html.P("Table to look up FIPS IDs by zip code source from Kaggle.",
+                    className="card-text",),
+                dbc.Button("Go to Kaggle", color="primary"),
+                ]),
+                ],
+                style={"width": "25rem"},)
+            ]
         
     # If the user tries to reach a different page, return a 404 message
     return html.Div(
