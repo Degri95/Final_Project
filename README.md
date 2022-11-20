@@ -10,7 +10,7 @@ Dataset is large and encompases possible variables that may be related to one an
 
 We are using data from the [2021 Places Census data](https://chronicdata.cdc.gov/500-Cities-Places/PLACES-County-Data-GIS-Friendly-Format-2021-releas/kmvs-jkvx).  This data provides measures related to health outcomes. The data includes prevention and health risk behaviors for counties in the United States. These are determined by combining various surveys for the same populations. The data is sourced through the The United States Census bureau by counties.
 
-Measure definitions can be view at [Measure-definitions] (https://www.cdc.gov/places/measure-definitions/index.html).
+Measure definitions can be view at [Measure-definitions](https://www.cdc.gov/places/measure-definitions/index.html).
 The measures are defined as an estimate of the percentage of population in the county who meets certain criteria.
 
 The data contains population and geographic features for the locations.
