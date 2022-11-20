@@ -98,9 +98,16 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 # Function for zip feature
 def make_bargraph(inputvalue):
     a = zip_data.query(f'ZIP == {inputvalue}')["STCOUNTYFP"].values[0]
-    fig1 = px.bar(status_data[status_data.CountyFIPS == a], x=["MHLTH", "PHLTH", "GHLTH"], barmode="group", orientation="h")
-    fig1.update_layout(transition_duration=500)
+    status_data_1 = status_data.rename(columns={"MHLTH": "Mental Health Rating",
+                                    "PHLTH": "Physical Health Rating",
+                                    "GHLTH": "Good Health Rating"})
+    fig1 = px.bar(status_data_1[status_data_1.CountyFIPS == a], x=["Mental Health Rating", "Physical Health Rating", 
+                                                            "Good Health Rating"], barmode="group", orientation="h",
+                                                            color_discrete_sequence=px.colors.qualitative.Plotly)
+    fig1.update_layout(transition_duration=500, yaxis_visible=False, yaxis_showticklabels=False)
+    fig1.update_xaxes(title='Average of Rating for County', visible=True, showticklabels=True)
     return fig1
+
 
 
 # Figure variables
@@ -121,7 +128,7 @@ def render_page_content(pathname):
             dbc.Container([
                 dbc.Row([
                     dbc.Col([
-                        html.H3("Introduction to project", style={'textAlign':'center'}),
+                        html.H3("Introduction to Project", style={'textAlign':'center'}),
                         html.Br(),
                         html.P("Leveraging US county level estimates for health related measure, we seek to answer the following questions"),
                         html.H4("Main Questions:"),
@@ -208,10 +215,20 @@ def render_page_content(pathname):
                 style={"width": "25rem"},),
             dbc.Card([
                 dbc.CardBody([
-                    html.H4("Definitions for measures", className="card-title"),
+                    html.H4("Definitions for Measures", className="card-title"),
                     html.P("Complete definitions for health measures.",
                     className="card-text",),
                 dbc.Button("Go to the measure-definitions page",href="https://www.cdc.gov/places/measure-definitions/index.html", 
+                external_link=True, color="primary"),
+                ]),
+                ],
+                style={"width": "25rem"},),
+            dbc.Card([
+                dbc.CardBody([
+                    html.H4("County Populations", className="card-title"),
+                    html.P("2020 population measures for US counties.",
+                    className="card-text",),
+                dbc.Button("Go to the population report page",href="http://www.socialexplorer.com/pub/reportdata/HtmlResults.aspx?reportid=R13242424", 
                 external_link=True, color="primary"),
                 ]),
                 ],
