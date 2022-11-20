@@ -33,8 +33,10 @@ risk_data = pd.read_csv(health_risk_behaviors_file)
 prevention_file = Path('data/prevention_df.csv')  
 prevention_data = pd.read_csv(prevention_file)
 
-#Import correlation image
+# Image paths
 image_path = 'assets/correlation_matrix.png'
+accuracy_path = 'assets/Accuracy.png'
+actual_v_predicted_path = 'assets/actual_vs_predicted.png'
 graph_path = 'assets/Graph.png'
 
 #import data for zip
@@ -138,7 +140,8 @@ def render_page_content(pathname):
         return [
             html.H1 ("Dashboard", style = {'textAlign':'center'}),
             dcc.Graph(figure = fig2),
-            dcc.Input(id="zip-input", value="# Enter Zip"),
+            dcc.Input(id="zip-input", value="# Enter zip to update table below",
+            size="30"),
             dcc.Graph(id = "zip-output")     
 
 # Delete if we want to keep the existing map        
@@ -155,18 +158,37 @@ def render_page_content(pathname):
     elif pathname == "/page-2":
         return [ 
             html.H1("Analysis", style={'textAlign':'center'}),
-            html.P("Recap of exploration and decision making"),
+            html.Br(),
+            html.P("We reviewed distributions by using box plots to better understand the various measures in our dataset.   We chose to keep outliers to keep our data's integrity in our analysis. We compared the crude with the age adjusted columns, and determined to keep the age adjusted columns based on our approach of comparing measures accross counties.  We also completed some quick scatterplots and saw that some of the relationships between measures appeared to be linear."),
+            html.Br(),
+            html.P("Completing a correlation table, we were able to see how the measure may or may not be correlated with each other."),
             dcc.Graph(figure = fig3),
             dcc.Graph(figure = fig4),
             dcc.Graph(figure = fig5),
             dcc.Graph(figure = fig6),
+            dbc.Card([dbc.CardImg(src=image_path),],style={"width": "50rem"},),
             ]
 
     elif pathname == "/page-3":
         return [
-            html.H1("Machine learning", style={'textAlign':'center'}),
-            dbc.Card([dbc.CardImg(src=image_path),], style={"width": "30rem"},)
-            ]
+            html.H1("Machine Learning", style={'textAlign':'center'}),
+
+            dbc.Container([
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Card([dbc.CardImg(src=actual_v_predicted_path),], style={"width": "30rem"},),
+                        dbc.Card([dbc.CardImg(src=accuracy_path),],style={"width": "30rem"},),
+                    ]),
+                    dbc.Col([
+                        html.H3("Model Choice", style={'textAlign':'center'}),
+                        html.Br(),                        
+                        html.P("A multiple linear regression model will be used to predict cancer rate using the categorized health data as features. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships. There is limiations that come with multiple linear regression. Linear regression is very sensitive to outliers and falsely concluding correlation is causation can occur. The benefit of this model is that many features can be used to predict the cancer rate, and it lets the strength of the relationship be assessed between each feature and the prediction."),
+                        html.Br(),                        
+                        html.P("The model predicts the percentage of population with cancer with a relatively low mean square error value, and an accuracy score above 90%.")
+                    ])
+                ])
+            ])
+        ]
 
 
     elif pathname == "/page-4":
