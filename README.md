@@ -91,11 +91,9 @@ The model predicts the percentage of population with cancer with a relatively lo
     * Pull down menu of the counties that will display the health measures of the area
 
 
-
 ## Recommendation for future analysis
-- Reviewing statistical analysis that could be covered for the site.
-- Are there behaviors that can be used to predict a population's medical outcomes such as cancer.
-- Is there a difference in medical outcomes for populations based on if they sleep less than 7 hrs a day.
-- Are there locations that have differences in their medical outcomes to help identify areas where there may be interventions.
-- Does living in metropolitan area lead to higher health risks?
-- A specific health factor e.g Is there a correlation between hours of sleep per a night and obesity?
+- Expand the approach using individual responses from the Behavioral Risk Factor Sureillance System (BRFSS).
+
+-Run a similar multiple linear regression using cancer as the target variable with health risk and prevention behaviors as the features.
+
+-Refactor the code to run a model using tract level data to determine if health outcomes can be predicted based on population metrics.
