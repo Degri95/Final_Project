@@ -22,7 +22,6 @@ County population data was sourced from the [Social Explorer Market Profile Data
 - Can we predict the percentage of the national population that has cancer based on various other categories of health metrics at a county level?
 - Are there features related to health: preventive measure, risk behaviors, or other medical outcomes that are correlated to cancer outcomes?
 
-
 ## Slides
 
 https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNWap8/edit?usp=sharing
