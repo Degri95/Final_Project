@@ -2,15 +2,17 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, dcc, html
 import plotly.express as px
+import plotly.graph_objects as go
 import json
 import pandas as pd
 from pathlib import Path
-from urllib.request import urlopen
-import json
-with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
-    counties = json.load(response)
+#from urllib.request import urlopen
+#import json
+#with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
+    #counties = json.load(response)
 
-
+app = dash.Dash(__name__)
+server = app.server
 
 file = Path('data/health_outcomes_df.csv')    
 data = pd.read_csv(file)
@@ -23,6 +25,10 @@ locationfile = Path('data/mapping_df.csv')
 mapping_data = pd.read_csv(locationfile)
 mapping_df = county_df.merge(mapping_data, how="inner", on="CountyFIPS")
 
+#import data for interactiuve viz of health risks and cancer rates
+cancer_hr_df_file = Path('data/cancer_hr_df.csv')
+cancer_hr_df = pd.read_csv(cancer_hr_df_file)
+
 #Import data for boxplots
 health_status_file = Path('data/health_status_df.csv')  
 status_data = pd.read_csv(health_status_file)
@@ -32,6 +38,15 @@ health_risk_behaviors_file = Path('data/health_risk_behaviors_df.csv')
 risk_data = pd.read_csv(health_risk_behaviors_file)
 prevention_file = Path('data/prevention_df.csv')  
 prevention_data = pd.read_csv(prevention_file)
+
+
+#actual_vs_predicted ML viz
+accuracy_df_file = Path('data/accuracy_df.csv')
+accuracy_df = pd.read_csv(accuracy_df_file)
+
+#Feature importances
+feature_df_file = Path('data/feature_df.csv')
+feature_df = pd.read_csv(feature_df_file)
 
 # Image paths
 image_path = 'assets/correlation_matrix.png'
@@ -119,6 +134,61 @@ fig4 = px.box(outcomes_data, y=['ARTHRITIS', 'CASTHMA', 'BPHIGH', 'CANCER', 'HIG
 fig5 = px.box(prevention_data, y=['ACCESS', 'CHECKUP', 'DENTAL', 'BPMED', 'CHOLSCREEN', 'MAMMOUSE', 'CERVICAL', 'COLON_SCREEN', 'COREM', 'COREW'] )
 fig6 = px.box(risk_data, y=['BINGE', 'CSMOKING', 'LPA', 'SLEEP'] )
 
+fig7 = px.scatter(accuracy_df, x = 'Actual', y = 'Predicted', trendline = 'ols', trendline_color_override='red',
+                color = 'Variance', color_continuous_scale=px.colors.sequential.YlGnBu, width = 700,
+                title = 'Predicted vs Actual Results With Linear Regression Line and Variance')
+fig8 = px.bar(feature_df, x= 'Feature Importance', y = 'Feature Name', orientation = 'h', 
+             hover_data = ['Feature Name', 'Feature Importance'], color = 'Feature Importance', 
+             color_continuous_scale=px.colors.sequential.Viridis, width = 800, height = 700,
+             title = 'Feature Importances Sorted')
+
+fig9 = go.Figure()
+
+for column in cancer_hr_df.columns.to_list():
+    fig9.add_trace(
+        go.Scatter(
+            x = cancer_hr_df.index,
+            y = cancer_hr_df[column],
+            name = column
+           
+        )
+    )
+    
+fig9.update_layout(
+    updatemenus=[go.layout.Updatemenu(
+        active=0,
+        buttons=list(
+            [dict(label = 'All',
+                method = 'update',
+                args = [{'visible': [False, False, True, True, True, True, True, True]},
+                    {'title': 'All',
+                    'showlegend':True}]),
+            dict(label = 'binge',
+                method = 'update',
+                args = [{'visible': [False, False, True, True, False, False, False, False]}, # the index of True aligns with the indices of plot traces
+                        {'title': 'Binge Drinking',
+                        'showlegend':True}]),
+            dict(label = 'csmoking',
+                method = 'update',
+                args = [{'visible': [False, False, True, False, True, False, False, False]},
+                        {'title': 'Smoking',
+                        'showlegend':True}]),
+            dict(label = 'lpa',
+                method = 'update',
+                args = [{'visible': [False, False, True, False, False, True, False, False]},
+                        {'title': 'Limited Physical Activity',
+                        'showlegend':True}]),
+            dict(label = 'sleep',
+                method = 'update',
+                args = [{'visible': [False, False, True, False, False, False, True]},
+                        {'title': '> 7 Hours of Sleep',
+                        'showlegend':True}]),
+            
+            ])
+        )
+    ])
+
+
 
 # Callback for different pages
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
@@ -149,7 +219,9 @@ def render_page_content(pathname):
             dcc.Graph(figure = fig2),
             dcc.Input(id="zip-input", value="# Enter zip to update table below",
             size="30"),
-            dcc.Graph(id = "zip-output")     
+            dcc.Graph(id = "zip-output"),  
+            
+            dcc.Graph(figure = fig9),   
 
 # Delete if we want to keep the existing map        
 #            dcc.Graph(figure = px.choropleth_mapbox(df, geojson=counties, locations='CountyFIPS', color='CANCER',
@@ -179,11 +251,10 @@ def render_page_content(pathname):
     elif pathname == "/page-3":
         return [
             html.H1("Machine Learning", style={'textAlign':'center'}),
-
             dbc.Container([
                 dbc.Row([
                     dbc.Col([
-                        dbc.Card([dbc.CardImg(src=actual_v_predicted_path),], style={"width": "30rem"},),
+                        #dbc.Card([dbc.CardImg(src=actual_v_predicted_path),], style={"width": "30rem"},),
                         dbc.Card([dbc.CardImg(src=accuracy_path),],style={"width": "30rem"},),
                     ]),
                     dbc.Col([
@@ -192,8 +263,9 @@ def render_page_content(pathname):
                         html.P("A multiple linear regression model will be used to predict cancer rate using the categorized health data as features. R-squared and P-values will be examined to determine effectiveness and confidence of the data's relationships. There is limiations that come with multiple linear regression. Linear regression is very sensitive to outliers and falsely concluding correlation is causation can occur. The benefit of this model is that many features can be used to predict the cancer rate, and it lets the strength of the relationship be assessed between each feature and the prediction."),
                         html.Br(),                        
                         html.P("The model predicts the percentage of population with cancer with a relatively low mean square error value, and an accuracy score above 90%.")
-                    ])
-                ])
+                    ]),
+            dcc.Graph(figure = fig7),
+            dcc.Graph(figure = fig8),    ])
             ])
         ]
 
