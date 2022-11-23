@@ -22,7 +22,6 @@ County population data was sourced from the [Social Explorer Market Profile Data
 - Can we predict the percentage of the national population that has cancer based on various other categories of health metrics at a county level?
 - Are there features related to health: preventive measure, risk behaviors, or other medical outcomes that are correlated to cancer outcomes?
 
-
 ## Slides
 
 https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNWap8/edit?usp=sharing
@@ -34,7 +33,6 @@ https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNW
 - Dash
 - Postgres for our database
 - AWS to host the data
-- Heroku
 
 ## Data Exploration And Analysis
 
@@ -51,7 +49,7 @@ The second dataset that was preprocessed was the **census_county_pop** CSV file.
 
 ### Feature Engineering
 
-Scaling was not applied to the linear regression data, as all features ranged between 0 and 100. The three DataFrames were combined into a DataFrame and used for the training and testing.
+Scaling was not applied to the linear regression data. The three DataFrames were combined into a DataFrame and used for the training and testing.
 
 When the logistical regression model was created, cancer rates were iterated through, labeled, and added to the DataFrame as a column to be predicted as the Y variable in the model. The threshold for high risk is created by gathering data that is one standard deviation away from the mean. (This threshold may change). This model was later **dropped**.
 
@@ -71,7 +69,7 @@ A logistic regression model was tested to predict high risk (cancer). Catergoriz
 | ----------- | ----------- |
 | R2 Score      | .91       |
 | Mean Squared Error | .014 |
-| Root Mean Squared Error | .012 |
+| Root Mean Squared Error | .12 |
 
 ![actual_vs_predicted](/images/actual_vs_predicted.png)
 
@@ -79,8 +77,8 @@ The model predicts the percentage of population with cancer with a relatively lo
 
 ## Databases
 
-- We are using PostgreSQL hosted by AWS. We are creating two tables. One table contains our county variable (Health related data) and the other has a population density data. In addition, we are using PySpark to transform, load and extract before hosting on a remote server.
-- The machine learning model will be connected to the database (PostgreSQL).
+- We are using PostgreSQL hosted by AWS. Multiple tables were created by health catergories and various other metrics (Population and desnity).  In addition, we are using PySpark to transform, load and extract before hosting on a remote server.
+- The machine learning model will be connected to the database via a connection string (PostgreSQL).
 
 ![PostgreSQL Schema](images/CDC_Data_tables_ERD.png)
 
