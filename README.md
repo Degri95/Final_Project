@@ -24,7 +24,7 @@ County population data was sourced from the [Social Explorer Market Profile Data
 
 ## Slides
 
-https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNWap8/edit?usp=sharing
+[Slides](https://docs.google.com/presentation/d/15OZkmBjv44i-xoq12jIVcF1bP-0Hgk-oNm7jcBNWap8/edit?usp=sharing)
 
 ## Tools To Be Used:
 
@@ -94,6 +94,6 @@ The model predicts the percentage of population with cancer with a relatively lo
 ## Recommendation for future analysis
 - Expand the approach using individual responses from the Behavioral Risk Factor Sureillance System (BRFSS).
 
--Run a similar multiple linear regression using cancer as the target variable with health risk and prevention behaviors as the features.
+- Run a similar multiple linear regression using cancer as the target variable with health risk and prevention behaviors as the features.
 
--Refactor the code to run a model using tract level data to determine if health outcomes can be predicted based on population metrics.
+- Refactor the code to run a model using tract level data to determine if health outcomes can be predicted based on population metrics.
